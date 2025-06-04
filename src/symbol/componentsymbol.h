@@ -16,6 +16,7 @@ private:
   QPainterPath m_path;
   QPointF m_pin1;
   QString m_designator;
+  QFont m_designatorFont;
 };
 
 #endif /* __COMPONENT_SYMBOL_H__ */

@@ -5,6 +5,12 @@ ComponentSymbol::ComponentSymbol(const PackageDataStore::PackageInfo& info,
                                  const QString& designator)
   : Symbol("component"), m_pin1(0,0), m_designator(designator)
 {
+  m_designatorFont = QApplication::font();
+  if (m_designatorFont.pointSizeF() > 0)
+    m_designatorFont.setPointSizeF(m_designatorFont.pointSizeF() * 0.5);
+  else if (m_designatorFont.pixelSize() > 0)
+    m_designatorFont.setPixelSize(m_designatorFont.pixelSize() * 0.5);
+
   m_path = info.bodyPath;
   for (const auto& pin : info.pins) {
     m_path.addPath(pin.path);
@@ -13,7 +19,7 @@ ComponentSymbol::ComponentSymbol(const PackageDataStore::PackageInfo& info,
   }
   m_bounding = m_path.boundingRect();
   if (!m_designator.isEmpty()) {
-    QFontMetricsF fm(QApplication::font());
+    QFontMetricsF fm(m_designatorFont);
     QRectF textRect = fm.boundingRect(m_designator);
     textRect.moveCenter(m_bounding.center());
     m_bounding = m_bounding.united(textRect);
@@ -34,5 +40,8 @@ void ComponentSymbol::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
   painter->drawEllipse(m_pin1, 0.01, 0.01);
   painter->setPen(m_pen);
   painter->setBrush(Qt::NoBrush);
+  QFont prevFont = painter->font();
+  painter->setFont(m_designatorFont);
   painter->drawText(m_bounding, Qt::AlignCenter, m_designator);
+  painter->setFont(prevFont);
 }
