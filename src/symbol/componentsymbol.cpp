@@ -21,27 +21,18 @@ ComponentSymbol::ComponentSymbol(const PackageDataStore::PackageInfo& info,
                         info.xmax - info.xmin, info.ymax - info.ymin);
 
   m_designatorFont = QApplication::font();
-  QFontMetricsF baseFm(m_designatorFont);
-  qreal baseHeight = baseFm.height();
-  if (baseHeight > 0) {
-    qreal boundHeight = m_bounding.height();
-    qreal pkgHeight = info.ymax - info.ymin;
-    if (pkgHeight > boundHeight)
-      boundHeight = pkgHeight;
-    qreal targetHeight = boundHeight * 0.25;
-    qreal scaleFactor = targetHeight / baseHeight;
-    if (m_designatorFont.pointSizeF() > 0)
-      m_designatorFont.setPointSizeF(m_designatorFont.pointSizeF() * scaleFactor);
-    else if (m_designatorFont.pixelSize() > 0)
-      m_designatorFont.setPixelSize(m_designatorFont.pixelSize() * scaleFactor);
-  }
   if (!m_designator.isEmpty()) {
-    QFontMetricsF fm(m_designatorFont);
-    QRectF textRect = fm.boundingRect(m_designator);
-    textRect.moveCenter(m_bounding.center());
     m_designatorItem = new QGraphicsSimpleTextItem(m_designator, this);
     m_designatorItem->setFont(m_designatorFont);
     m_designatorItem->setBrush(m_pen.color());
+
+    QRectF br = m_designatorItem->boundingRect();
+    qreal targetHeight = 0.02; // roughly the diameter of the pin one marker
+    qreal scale = br.height() > 0 ? targetHeight / br.height() : 1.0;
+    m_designatorItem->setScale(scale);
+
+    QRectF textRect = QTransform::fromScale(scale, scale).mapRect(br);
+    textRect.moveCenter(m_bounding.center());
     m_designatorItem->setPos(textRect.topLeft());
     m_bounding = m_bounding.united(textRect);
   }
