@@ -7,9 +7,9 @@ ComponentSymbol::ComponentSymbol(const PackageDataStore::PackageInfo& info,
 {
   m_designatorFont = QApplication::font();
   if (m_designatorFont.pointSizeF() > 0)
-    m_designatorFont.setPointSizeF(m_designatorFont.pointSizeF() * 0.5);
+    m_designatorFont.setPointSizeF(m_designatorFont.pointSizeF() * 0.3);
   else if (m_designatorFont.pixelSize() > 0)
-    m_designatorFont.setPixelSize(m_designatorFont.pixelSize() * 0.5);
+    m_designatorFont.setPixelSize(m_designatorFont.pixelSize() * 0.3);
 
   m_path = info.bodyPath;
   for (const auto& pin : info.pins) {
