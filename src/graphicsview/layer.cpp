@@ -32,7 +32,7 @@ Layer::Layer(QString step, QString layer):
   GraphicsLayer(NULL), m_step(step), m_layer(layer), m_notes(NULL)
 {
   GraphicsLayerScene* scene = new GraphicsLayerScene;
-  QString featurePath = ctx.loader->featuresPath(QString("steps/%1/layers/%2/features").arg(step).arg(layer));
+  QString featurePath = ctx.loader->featuresPath(QString("steps/%1/layers/%2").arg(step).arg(layer));
   if (QFile(featurePath).size() > 0) {
     m_features = new LayerFeatures(step, "steps/%1/layers/" + layer + "/features");
   } else {
