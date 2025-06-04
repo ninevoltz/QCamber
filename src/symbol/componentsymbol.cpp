@@ -23,6 +23,6 @@ void ComponentSymbol::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 {
   Symbol::paint(painter, option, widget);
   painter->setPen(Qt::NoPen);
-  painter->setBrush(m_pen);
+  painter->setBrush(QBrush(m_pen.color()));
   painter->drawEllipse(m_pin1, 0.02, 0.02);
 }
