@@ -12,6 +12,12 @@ ComponentSymbol::ComponentSymbol(const PackageDataStore::PackageInfo& info,
       m_pin1 = QPointF(pin.x, -pin.y);
   }
   m_bounding = m_path.boundingRect();
+  if (!m_designator.isEmpty()) {
+    QFontMetricsF fm(QApplication::font());
+    QRectF textRect = fm.boundingRect(m_designator);
+    textRect.moveCenter(m_bounding.center());
+    m_bounding = m_bounding.united(textRect);
+  }
 }
 
 QPainterPath ComponentSymbol::painterPath(void)
