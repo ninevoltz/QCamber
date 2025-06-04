@@ -3,7 +3,8 @@
 
 ComponentSymbol::ComponentSymbol(const PackageDataStore::PackageInfo& info,
                                  const QString& designator)
-  : Symbol("component"), m_pin1(0,0), m_designator(designator)
+  : Symbol("component"), m_pin1(0,0), m_designator(designator),
+    m_designatorItem(NULL)
 {
   m_path = info.bodyPath;
   for (const auto& pin : info.pins) {
@@ -35,6 +36,10 @@ ComponentSymbol::ComponentSymbol(const PackageDataStore::PackageInfo& info,
     QFontMetricsF fm(m_designatorFont);
     QRectF textRect = fm.boundingRect(m_designator);
     textRect.moveCenter(m_bounding.center());
+    m_designatorItem = new QGraphicsSimpleTextItem(m_designator, this);
+    m_designatorItem->setFont(m_designatorFont);
+    m_designatorItem->setBrush(m_pen.color());
+    m_designatorItem->setPos(textRect.topLeft());
     m_bounding = m_bounding.united(textRect);
   }
 }
@@ -53,8 +58,11 @@ void ComponentSymbol::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
   painter->drawEllipse(m_pin1, 0.01, 0.01);
   painter->setPen(m_pen);
   painter->setBrush(Qt::NoBrush);
-  QFont prevFont = painter->font();
-  painter->setFont(m_designatorFont);
-  painter->drawText(m_bounding, Qt::AlignCenter, m_designator);
-  painter->setFont(prevFont);
+}
+
+void ComponentSymbol::setPen(const QPen& pen)
+{
+  Symbol::setPen(pen);
+  if (m_designatorItem)
+    m_designatorItem->setBrush(pen.color());
 }
