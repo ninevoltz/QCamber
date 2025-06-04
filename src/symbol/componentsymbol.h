@@ -14,6 +14,7 @@ public:
   virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                      QWidget *widget);
   virtual void setPen(const QPen& pen) override;
+  virtual void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
 private:
   QPainterPath m_path;
   QPointF m_pin1;
