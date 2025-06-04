@@ -26,7 +26,7 @@ Symbol* ComponentRecord::createSymbol(void) const
   if (!pkgs)
     return new NullSymbol("null", P, AttribData());
   PackageDataStore::PackageInfo info = pkgs->package(pkg_ref);
-  Symbol* symbol = new ComponentSymbol(info);
+  Symbol* symbol = new ComponentSymbol(info, comp_name);
   symbol->setPos(x, -y);
   if (mirror) {
     QTransform t; t.scale(-1, 1); symbol->setTransform(t, true);

@@ -1,8 +1,9 @@
 #include "componentsymbol.h"
 #include <QtWidgets>
 
-ComponentSymbol::ComponentSymbol(const PackageDataStore::PackageInfo& info)
-  : Symbol("component"), m_pin1(0,0)
+ComponentSymbol::ComponentSymbol(const PackageDataStore::PackageInfo& info,
+                                 const QString& designator)
+  : Symbol("component"), m_pin1(0,0), m_designator(designator)
 {
   m_path = info.bodyPath;
   for (const auto& pin : info.pins) {
@@ -24,5 +25,8 @@ void ComponentSymbol::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
   Symbol::paint(painter, option, widget);
   painter->setPen(Qt::NoPen);
   painter->setBrush(QBrush(m_pen.color()));
-  painter->drawEllipse(m_pin1, 0.02, 0.02);
+  painter->drawEllipse(m_pin1, 0.01, 0.01);
+  painter->setPen(m_pen);
+  painter->setBrush(Qt::NoBrush);
+  painter->drawText(m_bounding, Qt::AlignCenter, m_designator);
 }
