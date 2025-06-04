@@ -38,10 +38,12 @@ Layer::Layer(QString step, QString layer):
   } else {
     m_features = new Components(step, "steps/%1/layers/" + layer + "/components");
   }
+
   if (auto lf = dynamic_cast<LayerFeatures*>(m_features))
     lf->addToScene(scene);
   else if (auto cmp = dynamic_cast<Components*>(m_features))
     cmp->addToScene(scene);
+
   setLayerScene(scene);
 }
 
