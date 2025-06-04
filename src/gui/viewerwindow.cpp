@@ -207,7 +207,7 @@ QColor ViewerWindow::nextColor(void)
 
 void ViewerWindow::loadColorConfig()
 {
-  ctx.bg_color = QColor(SETTINGS->get("color", "BG").toString());
+  ctx.bg_color = QColor(SETTINGS->get("Color", "BG").toString());
 
   m_colors.clear();
   for(int i = 0; i < 6; ++i) {
