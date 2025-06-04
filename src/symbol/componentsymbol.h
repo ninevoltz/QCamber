@@ -4,6 +4,7 @@
 #include "symbol.h"
 #include "packagedatastore.h"
 #include <QPainterPath>
+#include <QGraphicsSimpleTextItem>
 
 class ComponentSymbol : public Symbol {
 public:
@@ -12,11 +13,13 @@ public:
   virtual QPainterPath painterPath(void);
   virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                      QWidget *widget);
+  virtual void setPen(const QPen& pen) override;
 private:
   QPainterPath m_path;
   QPointF m_pin1;
   QString m_designator;
   QFont m_designatorFont;
+  QGraphicsSimpleTextItem* m_designatorItem;
 };
 
 #endif /* __COMPONENT_SYMBOL_H__ */
