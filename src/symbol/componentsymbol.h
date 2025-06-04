@@ -7,13 +7,15 @@
 
 class ComponentSymbol : public Symbol {
 public:
-  ComponentSymbol(const PackageDataStore::PackageInfo& info);
+  ComponentSymbol(const PackageDataStore::PackageInfo& info,
+                  const QString& designator);
   virtual QPainterPath painterPath(void);
   virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                      QWidget *widget);
 private:
   QPainterPath m_path;
   QPointF m_pin1;
+  QString m_designator;
 };
 
 #endif /* __COMPONENT_SYMBOL_H__ */
