@@ -2,14 +2,18 @@
 #define __COMPONENT_SYMBOL_H__
 
 #include "symbol.h"
-#include <QRectF>
+#include "packagedatastore.h"
+#include <QPainterPath>
 
 class ComponentSymbol : public Symbol {
 public:
-  ComponentSymbol(const QRectF& rect);
+  ComponentSymbol(const PackageDataStore::PackageInfo& info);
   virtual QPainterPath painterPath(void);
+  virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                     QWidget *widget);
 private:
-  QRectF m_rect;
+  QPainterPath m_path;
+  QPointF m_pin1;
 };
 
 #endif /* __COMPONENT_SYMBOL_H__ */

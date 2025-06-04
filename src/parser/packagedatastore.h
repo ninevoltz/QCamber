@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QString>
 #include <QRectF>
+#include <QPainterPath>
 
 class PackageDataStore : public DataStore {
 public:
@@ -15,6 +16,15 @@ public:
     qreal ymin;
     qreal xmax;
     qreal ymax;
+
+    QPainterPath bodyPath;
+    struct PinInfo {
+      int number;
+      qreal x;
+      qreal y;
+      QPainterPath path;
+    };
+    QList<PinInfo> pins;
   };
 
   void addPackage(int index, const PackageInfo& info);
