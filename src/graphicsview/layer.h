@@ -28,6 +28,7 @@
 #include "layerfeatures.h"
 #include "graphicslayer.h"
 #include "graphicslayerscene.h"
+#include "components.h"
 #include "notes.h"
 #include "symbol.h"
 #include <QTextEdit>
