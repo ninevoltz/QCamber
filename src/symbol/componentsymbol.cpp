@@ -12,12 +12,19 @@ ComponentSymbol::ComponentSymbol(const PackageDataStore::PackageInfo& info,
       m_pin1 = QPointF(pin.x, -pin.y);
   }
   m_bounding = m_path.boundingRect();
+  if (m_bounding.isNull() && info.xmax > info.xmin && info.ymax > info.ymin)
+    m_bounding = QRectF(info.xmin, -info.ymax,
+                        info.xmax - info.xmin, info.ymax - info.ymin);
 
   m_designatorFont = QApplication::font();
   QFontMetricsF baseFm(m_designatorFont);
   qreal baseHeight = baseFm.height();
   if (baseHeight > 0) {
-    qreal targetHeight = m_bounding.height() * 0.25;
+    qreal boundHeight = m_bounding.height();
+    qreal pkgHeight = info.ymax - info.ymin;
+    if (pkgHeight > boundHeight)
+      boundHeight = pkgHeight;
+    qreal targetHeight = boundHeight * 0.25;
     qreal scaleFactor = targetHeight / baseHeight;
     if (m_designatorFont.pointSizeF() > 0)
       m_designatorFont.setPointSizeF(m_designatorFont.pointSizeF() * scaleFactor);
