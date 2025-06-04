@@ -5,12 +5,6 @@ ComponentSymbol::ComponentSymbol(const PackageDataStore::PackageInfo& info,
                                  const QString& designator)
   : Symbol("component"), m_pin1(0,0), m_designator(designator)
 {
-  m_designatorFont = QApplication::font();
-  if (m_designatorFont.pointSizeF() > 0)
-    m_designatorFont.setPointSizeF(m_designatorFont.pointSizeF() * 0.3);
-  else if (m_designatorFont.pixelSize() > 0)
-    m_designatorFont.setPixelSize(m_designatorFont.pixelSize() * 0.3);
-
   m_path = info.bodyPath;
   for (const auto& pin : info.pins) {
     m_path.addPath(pin.path);
@@ -18,6 +12,18 @@ ComponentSymbol::ComponentSymbol(const PackageDataStore::PackageInfo& info,
       m_pin1 = QPointF(pin.x, -pin.y);
   }
   m_bounding = m_path.boundingRect();
+
+  m_designatorFont = QApplication::font();
+  QFontMetricsF baseFm(m_designatorFont);
+  qreal baseHeight = baseFm.height();
+  if (baseHeight > 0) {
+    qreal targetHeight = m_bounding.height() * 0.25;
+    qreal scaleFactor = targetHeight / baseHeight;
+    if (m_designatorFont.pointSizeF() > 0)
+      m_designatorFont.setPointSizeF(m_designatorFont.pointSizeF() * scaleFactor);
+    else if (m_designatorFont.pixelSize() > 0)
+      m_designatorFont.setPixelSize(m_designatorFont.pixelSize() * scaleFactor);
+  }
   if (!m_designator.isEmpty()) {
     QFontMetricsF fm(m_designatorFont);
     QRectF textRect = fm.boundingRect(m_designator);
