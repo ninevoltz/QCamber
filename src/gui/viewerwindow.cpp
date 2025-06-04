@@ -32,6 +32,9 @@
 #include <QRegularExpression>
 #include <QDebug>
 
+#include "packagedatastore.h"
+#include "odbpp/cachedparser.h"
+
 #include "context.h"
 #include "layerinfobox.h"
 #include "settingsdialog.h"
