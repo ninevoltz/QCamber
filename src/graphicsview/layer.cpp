@@ -26,12 +26,18 @@
 
 #include "context.h"
 #include "odbppgraphicsscene.h"
+#include "components.h"
 
 Layer::Layer(QString step, QString layer):
   GraphicsLayer(NULL), m_step(step), m_layer(layer), m_notes(NULL)
 {
   GraphicsLayerScene* scene = new GraphicsLayerScene;
-  m_features = new LayerFeatures(step, "steps/%1/layers/" +layer +"/features");
+  QString featurePath = ctx.loader->featuresPath(QString("steps/%1/layers/%2/features").arg(step).arg(layer));
+  if (QFile(featurePath).size() > 0) {
+    m_features = new LayerFeatures(step, "steps/%1/layers/" + layer + "/features");
+  } else {
+    m_features = new Components(step, "steps/%1/layers/" + layer + "/components");
+  }
   m_features->addToScene(scene);
   setLayerScene(scene);
 }
