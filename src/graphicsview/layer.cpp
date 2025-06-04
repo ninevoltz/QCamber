@@ -38,7 +38,12 @@ Layer::Layer(QString step, QString layer):
   } else {
     m_features = new Components(step, "steps/%1/layers/" + layer + "/components");
   }
-  m_features->addToScene(scene);
+
+  if (auto lf = dynamic_cast<LayerFeatures*>(m_features))
+    lf->addToScene(scene);
+  else if (auto cmp = dynamic_cast<Components*>(m_features))
+    cmp->addToScene(scene);
+
   setLayerScene(scene);
 }
 
@@ -70,7 +75,9 @@ Notes* Layer::notes()
 
 QStandardItemModel* Layer::reportModel(void)
 {
-  return m_features->reportModel();
+  if (LayerFeatures* lf = dynamic_cast<LayerFeatures*>(m_features))
+    return lf->reportModel();
+  return new QStandardItemModel;
 }
 
 void Layer::setHighlightEnabled(bool status)
@@ -80,7 +87,8 @@ void Layer::setHighlightEnabled(bool status)
 
 void Layer::setShowStepRepeat(bool status)
 {
-  m_features->setShowStepRepeat(status);
+  if (LayerFeatures* lf = dynamic_cast<LayerFeatures*>(m_features))
+    lf->setShowStepRepeat(status);
   forceUpdate();
 }
 

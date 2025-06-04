@@ -54,7 +54,7 @@ protected:
   virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event);
 
 private:
-  LayerFeatures* m_features;
+  Symbol* m_features;
   QString m_step;
   QString m_layer;
   Notes* m_notes;
