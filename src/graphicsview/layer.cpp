@@ -36,7 +36,11 @@ Layer::Layer(QString step, QString layer):
   if (QFile(featurePath).size() > 0) {
     m_features = new LayerFeatures(step, "steps/%1/layers/" + layer + "/features");
   } else {
-    m_features = new Components(step, "steps/%1/layers/" + layer + "/components");
+    bool bottom = layer.contains("bot", Qt::CaseInsensitive) ||
+                 layer.contains("bottom", Qt::CaseInsensitive);
+    m_features = new Components(step,
+                                "steps/%1/layers/" + layer + "/components",
+                                bottom);
   }
 
   if (auto lf = dynamic_cast<LayerFeatures*>(m_features))
