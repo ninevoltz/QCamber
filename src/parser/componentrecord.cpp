@@ -33,7 +33,7 @@ Symbol* ComponentRecord::createSymbol(void) const
     t.scale(-1, 1);
     symbol->setTransform(t, true);
     // Mirror rotation for bottom side components
-    qreal mirroredRot = 180.0 - rot;
+    qreal mirroredRot = 360.0 - rot;
     while (mirroredRot < 0)
       mirroredRot += 360.0;
     while (mirroredRot >= 360.0)
