@@ -30,10 +30,11 @@ Symbol* ComponentRecord::createSymbol(void) const
   symbol->setPos(x, -y);
   if (mirror) {
     QTransform t;
-    t.scale(-1, 1);
+    // Flip both X and Y axis for bottom side components
+    t.scale(-1, -1);
     symbol->setTransform(t, true);
-    // Mirror rotation for bottom side components
-    qreal mirroredRot = 360.0 - rot;
+    // Adjust rotation to keep orientation consistent
+    qreal mirroredRot = 180.0 - rot;
     while (mirroredRot < 0)
       mirroredRot += 360.0;
     while (mirroredRot >= 360.0)
