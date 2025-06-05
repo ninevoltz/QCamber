@@ -23,6 +23,10 @@
 #ifndef __MACROS_H__
 #define __MACROS_H__
 
+#include <QStandardItem>
+#include <QString>
+#include <QList>
+
 #define R2D (180.0 / M_PI)
 #define D2R (M_PI / 180.0)
 
