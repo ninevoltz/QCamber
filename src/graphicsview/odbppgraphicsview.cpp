@@ -44,6 +44,10 @@ ODBPPGraphicsView::ODBPPGraphicsView(QWidget* parent): QGraphicsView(parent),
   setOptimizationFlags(DontSavePainterState);
   setTransformationAnchor(AnchorUnderMouse);
   setViewportUpdateMode(BoundingRectViewportUpdate);
+  // Enable mouse tracking so hover events (e.g., tooltips) work without
+  // requiring a mouse press.
+  setMouseTracking(true);
+  viewport()->setMouseTracking(true);
   setZoomMode(AreaZoom);
 
   connect(m_scene, SIGNAL(rectSelected(QRectF)), this,
