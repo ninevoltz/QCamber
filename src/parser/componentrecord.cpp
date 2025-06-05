@@ -29,9 +29,14 @@ Symbol* ComponentRecord::createSymbol(void) const
   Symbol* symbol = new ComponentSymbol(info, comp_name);
   symbol->setPos(x, -y);
   if (mirror) {
-    QTransform t; t.scale(-1, 1); symbol->setTransform(t, true);
+    QTransform t;
+    t.scale(-1, 1);
+    symbol->setTransform(t, true);
+    // Mirror rotation for bottom side components
+    symbol->setRotation(0);
+  } else {
+    symbol->setRotation(rot);
   }
-  symbol->setRotation(rot);
   symbol->setToolTip(QString("%1 (%2)").arg(comp_name).arg(part_name));
   return symbol;
 }
